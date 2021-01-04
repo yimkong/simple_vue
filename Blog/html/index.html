@@ -3,6 +3,12 @@
 	<head>
 		<meta charset="utf-8">
 		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+		<script>
+			Vue.component('todo-item', {
+				template: '<li>这是个待办项</li>'
+			})
+		</script>
 	</head>
 
 	<body>
@@ -18,23 +24,41 @@
 					</tr>
 					<tr>
 						<td>密码</td>
-						<td><input type="text" v-model="pwd"></td>
+						<td><input type="password" v-model="pwd"></td>
 					</tr>
 					<tr>
-						<td colspan="2O"><input type="button" value="登录" /></td>
+						<td colspan="2O"><input type="button" value="登录" @click="submit" /></td>
 					</tr>
 				</table>
 			</form>
+			<ol>
+				<!-- 创建一个 todo-item 组件的实例 -->
+				<todo-item></todo-item>
+			</ol>
+			<p v-on:click="account++">change</p>
 		</div>
-		<script type="text/javascript">
+
+		<script type="text/javascript" >
 			var data = {
-				"account": "",
+				"account": 1,
 				"pwd": ""
 			}
 			var app = new Vue({
 				el: '#app',
-				data: data
+				data: data,
+				methods: {
+					submit: function() {
+						console.log("abab")
+						console.log(this.account);
+						console.log(this.pwd);
+						axios.post('http://localhost:8080' , data)
+							.then(response => (console.log(response))).catch(error => {
+								console.log(error)
+							})
+					}
+				}
 			})
+
 		</script>
 	</body>
 </html>
